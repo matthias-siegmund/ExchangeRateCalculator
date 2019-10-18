@@ -1,0 +1,52 @@
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
+
+android {
+    compileSdkVersion rootProject.ext.compileSdkVersion
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles 'consumer-rules.pro'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation project(mod.core)
+
+    implementation dependency.kotlin.jdk
+
+    implementation dependency.androidx.constraintlayout
+    implementation dependency.androidx.lifecycle
+    implementation dependency.androidx.recyclerview
+
+    implementation dependency.circularimageview
+
+    implementation dependency.google.dagger.core
+    kapt dependency.google.dagger.compiler
+
+    implementation dependency.google.dagger.android.core
+    kapt dependency.google.dagger.android.processor
+
+    implementation dependency.square.retrofit.core
+    implementation dependency.square.retrofit.rx
+    implementation dependency.square.retrofit.moshi
+    api dependency.square.moshi.core
+
+    implementation dependency.timber
+}

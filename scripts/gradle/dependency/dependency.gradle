@@ -1,0 +1,49 @@
+ext.dependency = [
+        androidx: [
+                appcompat       : "androidx.appcompat:appcompat:${versions.androidx.appcompat}",
+                constraintlayout: "com.android.support.constraint:constraint-layout:${versions.androidx.constraintlayout}",
+                lifecycle       : "androidx.lifecycle:lifecycle-extensions:${versions.androidx.lifecycle}",
+                recyclerview    : "androidx.recyclerview:recyclerview:${versions.androidx.recyclerview}",
+        ],
+        circularimageview : "de.hdodenhof:circleimageview:${versions.circularimageview}",
+        google  : [
+                dagger: [
+                        android : [
+                                core     : "com.google.dagger:dagger-android-support:${versions.google.dagger}",
+                                processor: "com.google.dagger:dagger-android-processor:${versions.google.dagger}"
+                        ],
+                        core    : "com.google.dagger:dagger:${versions.google.dagger}",
+                        compiler: "com.google.dagger:dagger-compiler:${versions.google.dagger}",
+                ],
+                gson  : "com.google.code.gson:gson:${versions.google.gson}",
+        ],
+        kotlin  : [
+                jdk: "org.jetbrains.kotlin:kotlin-stdlib-jdk8:${versions.kotlin.core}",
+        ],
+        rx      : [
+                core   : "io.reactivex.rxjava2:rxjava:${versions.rx.core}",
+                android: "io.reactivex.rxjava2:rxandroid:${versions.rx.android}"
+        ],
+        test    : [
+                core   : "android.arch.core:core-testing:${versions.test.core}",
+                junit  : "junit:junit:${versions.test.junit}",
+                kotlin : [
+                        junit  : "org.jetbrains.kotlin:kotlin-test-junit:${versions.test.kotlin.junit}",
+                        mockito: "com.nhaarman.mockitokotlin2:mockito-kotlin:${versions.test.kotlin.mockito}",
+                ],
+                mockito: "org.mockito:mockito-core:${versions.test.mockito}",
+        ],
+        timber  : "com.jakewharton.timber:timber:${versions.timber}",
+        square  : [
+                moshi: [
+                        core:"com.squareup.moshi:moshi:${versions.square.moshi}",
+                        adapters: "com.squareup.moshi:moshi-adapters:${versions.square.moshi}"
+                ],
+                retrofit: [
+                        core : "com.squareup.retrofit2:retrofit:${versions.square.retrofit}",
+                        moshi: "com.squareup.retrofit2:converter-moshi:${versions.square.retrofit}",
+                        rx   : "com.squareup.retrofit2:adapter-rxjava2:${versions.square.retrofit}"
+                ],
+                okhttp  : "com.squareup.okhttp3:okhttp:${versions.square.okhttp}"
+        ],
+]
