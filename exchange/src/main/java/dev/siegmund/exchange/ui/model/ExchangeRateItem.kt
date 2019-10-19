@@ -1,6 +1,6 @@
 package dev.siegmund.exchange.ui.model
 
-data class ExchangeRate(
+data class ExchangeRateItem(
     val currencyName: String?,
     val currencyCode: String,
     val value: Double,

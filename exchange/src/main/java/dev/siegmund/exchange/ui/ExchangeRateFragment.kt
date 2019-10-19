@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager.VERTICAL
+import androidx.recyclerview.widget.SimpleItemAnimator
 import dagger.android.support.AndroidSupportInjection
 import dev.siegmund.exchange.R
 import dev.siegmund.exchange.ui.adapter.ExchangeRateAdapter
@@ -17,7 +18,6 @@ import dev.siegmund.exchange.ui.model.ExchangeRateViewModel
 import dev.siegmund.exchange.ui.model.ExchangeRateViewModelFactory
 import kotlinx.android.synthetic.main.fragment_exchange_rate.*
 import javax.inject.Inject
-import androidx.recyclerview.widget.SimpleItemAnimator
 
 class ExchangeRateFragment : Fragment() {
     @Inject
@@ -69,7 +69,7 @@ class ExchangeRateFragment : Fragment() {
     }
 
     private fun observeExchangeRates() {
-        exchangeRateViewModel.exchangeRates.observe(this, Observer { exchangeRates ->
+        exchangeRateViewModel.exchangeRateItems.observe(this, Observer { exchangeRates ->
             adapter.items = exchangeRates
         })
     }

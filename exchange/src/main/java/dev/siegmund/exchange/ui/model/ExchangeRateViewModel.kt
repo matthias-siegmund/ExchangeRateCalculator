@@ -21,9 +21,9 @@ class ExchangeRateViewModel(
 ) : ViewModel() {
     private val compositeDisposable = CompositeDisposable()
 
-    private val _exchangeRates = MutableLiveData<List<ExchangeRate>>()
-    val exchangeRates: LiveData<List<ExchangeRate>>
-        get() = _exchangeRates
+    private val _exchangeRateItems = MutableLiveData<List<ExchangeRateItem>>()
+    val exchangeRateItems: LiveData<List<ExchangeRateItem>>
+        get() = _exchangeRateItems
 
     private val _showError = SingleLiveEvent<Unit>()
     val showError: LiveData<Unit>
@@ -43,20 +43,23 @@ class ExchangeRateViewModel(
         observeExchangeRates(DEFAULT_VALUE, DEFAULT_CURRENCY_CODE)
     }
 
-    fun onItemClick(exchangeRate: ExchangeRate) {
+    fun onItemClick(exchangeRateItem: ExchangeRateItem) {
         compositeDisposable.clear()
-        observeExchangeRates(exchangeRate.value, exchangeRate.currencyCode)
+        observeExchangeRates(exchangeRateItem.value, exchangeRateItem.currencyCode)
     }
 
-    fun onValueChanged(exchangeRate: ExchangeRate, items: List<ExchangeRate>) {
+    fun onValueChanged(exchangeRateItem: ExchangeRateItem, items: List<ExchangeRateItem>) {
         compositeDisposable.clear()
-        updateValuesImmediately(exchangeRate, items)
-        observeExchangeRates(exchangeRate.value, exchangeRate.currencyCode)
+        updateValuesImmediately(exchangeRateItem, items)
+        observeExchangeRates(exchangeRateItem.value, exchangeRateItem.currencyCode)
     }
 
-    private fun updateValuesImmediately(exchangeRate: ExchangeRate, items: List<ExchangeRate>) {
-        _exchangeRates.value = items.map {
-            val newValue = it.rate * exchangeRate.value
+    private fun updateValuesImmediately(
+        exchangeRateItem: ExchangeRateItem,
+        items: List<ExchangeRateItem>
+    ) {
+        _exchangeRateItems.value = items.map {
+            val newValue = it.rate * exchangeRateItem.value
             it.copy(value = newValue.round(2))
         }
     }
@@ -66,29 +69,29 @@ class ExchangeRateViewModel(
             .subscribeOn(schedulerConfiguration.computation())
             .observeOn(schedulerConfiguration.ui())
             .subscribe({ response ->
-                _exchangeRates.value = getExchangeRatesWithBase(value, base, response)
+                _exchangeRateItems.value = getExchangeRateItemsWithBase(value, base, response)
                 _scrollToTop.value = base
             }, { error ->
                 Timber.e(
                     error,
-                    "getExchangeRates(value=$value, base=$base, scrollToTop=$scrollToTop)"
+                    "observeExchangeRates(value=$value, base=$base)"
                 )
                 _showError.call()
             })
     }
 
-    private fun getExchangeRatesWithBase(
+    private fun getExchangeRateItemsWithBase(
         value: Double,
         base: String,
         response: ExchangeRateResponse
-    ): List<ExchangeRate> {
-        val baseRate = getBaseExchangeRate(value, base)
+    ): List<ExchangeRateItem> {
+        val baseRate = getBaseExchangeRateItem(value, base)
         val list = mutableListOf(baseRate)
-        list.addAll(getExchangeRateList(value, response))
+        list.addAll(getExchangeRateItemList(value, response))
         return list
     }
 
-    private fun getBaseExchangeRate(value: Double, base: String) = ExchangeRate(
+    private fun getBaseExchangeRateItem(value: Double, base: String) = ExchangeRateItem(
         currencyName = currencyNameProvider.getDisplayName(base),
         currencyCode = base,
         rate = 1.0,
@@ -96,11 +99,11 @@ class ExchangeRateViewModel(
         editable = true
     )
 
-    private fun getExchangeRateList(
+    private fun getExchangeRateItemList(
         value: Double,
         response: ExchangeRateResponse
     ) = response.rates.map {
-        ExchangeRate(
+        ExchangeRateItem(
             currencyName = currencyNameProvider.getDisplayName(it.key),
             currencyCode = it.key,
             rate = it.value,

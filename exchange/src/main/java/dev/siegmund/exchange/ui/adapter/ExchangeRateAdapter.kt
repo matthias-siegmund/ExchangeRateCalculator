@@ -5,14 +5,14 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import dev.siegmund.exchange.R
-import dev.siegmund.exchange.ui.model.ExchangeRate
+import dev.siegmund.exchange.ui.model.ExchangeRateItem
 
 class ExchangeRateAdapter : RecyclerView.Adapter<ExchangeRateViewHolder>() {
-    lateinit var onItemClick: (ExchangeRate) -> Unit
+    lateinit var onItemClick: (ExchangeRateItem) -> Unit
 
-    lateinit var onValueChanged: (ExchangeRate, List<ExchangeRate>) -> Unit
+    lateinit var onValueChanged: (ExchangeRateItem, List<ExchangeRateItem>) -> Unit
 
-    var items: List<ExchangeRate> = emptyList()
+    var items: List<ExchangeRateItem> = emptyList()
         set(value) {
             val diffCallback = ExchangeRateDiffUtilCallback(field, value)
             val diffResult = DiffUtil.calculateDiff(diffCallback)

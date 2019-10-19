@@ -7,7 +7,7 @@ import android.text.TextWatcher
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
-import dev.siegmund.exchange.ui.model.ExchangeRate
+import dev.siegmund.exchange.ui.model.ExchangeRateItem
 import kotlinx.android.synthetic.main.item_exchange_rate.view.*
 import java.util.*
 
@@ -15,9 +15,9 @@ class ExchangeRateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
     private var textWatcher: TextWatcher? = null
 
     fun bind(
-        item: ExchangeRate,
+        item: ExchangeRateItem,
         onItemClick: () -> Unit,
-        onValueChanged: (ExchangeRate) -> Unit
+        onValueChanged: (ExchangeRateItem) -> Unit
     ) {
         val drawable = getDrawable(itemView.context, item.currencyCode)
         itemView.imageView.setImageDrawable(drawable)
@@ -43,7 +43,7 @@ class ExchangeRateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         resetListeners()
     }
 
-    private fun setTextWatcher(item: ExchangeRate, onValueChanged: (ExchangeRate) -> Unit) {
+    private fun setTextWatcher(item: ExchangeRateItem, onValueChanged: (ExchangeRateItem) -> Unit) {
         textWatcher = object : TextWatcher {
             override fun afterTextChanged(editable: Editable?) = Unit
 

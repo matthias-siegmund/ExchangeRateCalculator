@@ -1,11 +1,11 @@
 package dev.siegmund.exchange.ui.adapter
 
 import androidx.recyclerview.widget.DiffUtil
-import dev.siegmund.exchange.ui.model.ExchangeRate
+import dev.siegmund.exchange.ui.model.ExchangeRateItem
 
 class ExchangeRateDiffUtilCallback(
-    private val old: List<ExchangeRate>,
-    private val new: List<ExchangeRate>
+    private val old: List<ExchangeRateItem>,
+    private val new: List<ExchangeRateItem>
 ) : DiffUtil.Callback() {
     override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int) =
         old[oldItemPosition].currencyCode == new[newItemPosition].currencyCode

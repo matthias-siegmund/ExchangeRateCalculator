@@ -16,13 +16,15 @@ class ExchangeRateRepositoryImpl(
 
     override fun observeExchangeRates(base: String): Observable<ExchangeRateResponse> {
         return Observable.interval(
-            REFRESH_INTERVAL,
+            INITIAL_DELAY,
+            PERIOD,
             TimeUnit.SECONDS,
             schedulerConfiguration.timer()
         ).switchMapSingle { exchangeRateApi.getExchangeRates(base) }
     }
 
     private companion object {
-        const val REFRESH_INTERVAL = 1L
+        const val INITIAL_DELAY = 0L
+        const val PERIOD = 1L
     }
 }
