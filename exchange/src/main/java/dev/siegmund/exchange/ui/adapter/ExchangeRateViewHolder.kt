@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import dev.siegmund.exchange.ui.model.ExchangeRate
 import kotlinx.android.synthetic.main.item_exchange_rate.view.*
 import java.util.*
+import kotlin.math.round
 
 class ExchangeRateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     fun bind(item: ExchangeRate) {
@@ -15,7 +16,7 @@ class ExchangeRateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         itemView.imageView.setImageDrawable(drawable)
         itemView.nameTextView.text = item.currencyName
         itemView.codeTextView.text = item.currencyCode
-        itemView.valueEditText.setText(item.value.toString())
+        itemView.valueEditText.setText(item.value.round().toString())
     }
 
     private fun getDrawable(context: Context, currencyCode: String) : Drawable? {
@@ -26,4 +27,6 @@ class ExchangeRateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         )
         return ContextCompat.getDrawable(context, resourceId)
     }
+
+    private fun Double.round() = round(this * 100) / 100
 }
