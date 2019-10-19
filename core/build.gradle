@@ -43,4 +43,6 @@ dependencies {
 
     implementation dependency.rx.core
     implementation dependency.rx.android
+
+    implementation dependency.timber
 }

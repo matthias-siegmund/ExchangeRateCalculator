@@ -8,7 +8,7 @@ import dev.siegmund.exchange.R
 import dev.siegmund.exchange.ui.model.ExchangeRate
 
 class ExchangeRateAdapter : RecyclerView.Adapter<ExchangeRateViewHolder>() {
-    lateinit var onClick: (ExchangeRate) -> Unit
+    lateinit var onItemClick: (ExchangeRate) -> Unit
 
     lateinit var onValueChanged: (ExchangeRate, List<ExchangeRate>) -> Unit
 
@@ -32,7 +32,7 @@ class ExchangeRateAdapter : RecyclerView.Adapter<ExchangeRateViewHolder>() {
         val item = items[position]
         holder.bind(
             item,
-            { onClick(item) },
+            { onItemClick(item) },
             { onValueChanged(it, items) }
         )
     }

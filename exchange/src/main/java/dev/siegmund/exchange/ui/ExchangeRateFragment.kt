@@ -55,7 +55,7 @@ class ExchangeRateFragment : Fragment() {
 
     private fun initAdapter() {
         with(adapter) {
-            onClick = { exchangeRateViewModel.onItemClick(it) }
+            onItemClick = { exchangeRateViewModel.onItemClick(it) }
             onValueChanged = { item, items -> exchangeRateViewModel.onValueChanged(item, items) }
         }
     }

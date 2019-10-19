@@ -16,7 +16,7 @@ class ExchangeRateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
 
     fun bind(
         item: ExchangeRate,
-        onClick: () -> Unit,
+        onItemClick: () -> Unit,
         onValueChanged: (ExchangeRate) -> Unit
     ) {
         val drawable = getDrawable(itemView.context, item.currencyCode)
@@ -31,7 +31,7 @@ class ExchangeRateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         }
 
         if (item.clickable) {
-            itemView.setOnClickListener { onClick() }
+            itemView.setOnClickListener { onItemClick() }
         }
 
         if (item.editable) {
