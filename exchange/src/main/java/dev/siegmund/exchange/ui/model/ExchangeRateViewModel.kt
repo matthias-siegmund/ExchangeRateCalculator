@@ -36,13 +36,21 @@ class ExchangeRateViewModel(
             .subscribeOn(schedulerConfiguration.computation())
             .observeOn(schedulerConfiguration.ui())
             .subscribe({ response ->
-                Timber.v("observeExchangeRates(base=$base)")
-                _exchangeRates.value = getExchangeRateList(response)
+                val baseRate = getBaseExchangeRate(base)
+                val list = mutableListOf(baseRate)
+                list.addAll(getExchangeRateList(response))
+                _exchangeRates.value = list
             }, { error ->
                 Timber.e(error, "getExchangeRates()")
                 _showError.call()
             })
     }
+
+    private fun getBaseExchangeRate(base: String) = ExchangeRate(
+        currencyName = currencyNameProvider.getDisplayName(base),
+        currencyCode = base,
+        value = 1.0
+    )
 
     private fun getExchangeRateList(response: ExchangeRateResponse) = response.rates.map {
         ExchangeRate(
