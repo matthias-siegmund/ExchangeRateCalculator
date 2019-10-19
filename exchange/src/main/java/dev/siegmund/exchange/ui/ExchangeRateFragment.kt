@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -45,6 +46,7 @@ class ExchangeRateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initRecyclerView()
         observeExchangeRates()
+        observeShowError()
     }
 
     override fun onStart() {
@@ -62,6 +64,12 @@ class ExchangeRateFragment : Fragment() {
     private fun observeExchangeRates() {
         exchangeRateViewModel.exchangeRates.observe(this, Observer { exchangeRates ->
             adapter.items = exchangeRates
+        })
+    }
+
+    private fun observeShowError() {
+        exchangeRateViewModel.showError.observe(this, Observer {
+            Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_LONG).show()
         })
     }
 }

@@ -8,4 +8,6 @@ interface SchedulerConfiguration {
     fun computation(): Scheduler
 
     fun ui(): Scheduler
+
+    fun timer(): Scheduler
 }

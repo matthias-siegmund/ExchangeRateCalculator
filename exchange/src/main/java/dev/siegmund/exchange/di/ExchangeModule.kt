@@ -31,8 +31,9 @@ class ExchangeModule {
 
     @Provides
     fun provideExchangeRateRepository(
-        exchangeRateApi: ExchangeRateApi
-    ): ExchangeRateRepository = ExchangeRateRepositoryImpl(exchangeRateApi)
+        exchangeRateApi: ExchangeRateApi,
+        schedulerConfiguration: SchedulerConfiguration
+    ): ExchangeRateRepository = ExchangeRateRepositoryImpl(exchangeRateApi, schedulerConfiguration)
 
     @Provides
     fun provideCurrencyNameProvider(): CurrencyNameProvider = CurrencyNameProviderImpl()

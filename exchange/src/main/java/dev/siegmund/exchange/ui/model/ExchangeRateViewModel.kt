@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import dev.siegmund.core.rx.SchedulerConfiguration
 import dev.siegmund.core.rx.extensions.plus
+import dev.siegmund.core.ui.SingleLiveEvent
 import dev.siegmund.exchange.api.ExchangeRateRepository
 import dev.siegmund.exchange.api.model.ExchangeRateResponse
 import dev.siegmund.exchange.ui.util.CurrencyNameProvider
@@ -22,14 +23,24 @@ class ExchangeRateViewModel(
     val exchangeRates: LiveData<List<ExchangeRate>>
         get() = _exchangeRates
 
+    private val _showError = SingleLiveEvent<Unit>()
+    val showError: LiveData<Unit>
+        get() = _showError
+
     fun onStart() {
-        compositeDisposable + exchangeRateRepository.getExchangeRates("EUR")
+        observeExchangeRates("EUR")
+    }
+
+    private fun observeExchangeRates(base: String) {
+        compositeDisposable + exchangeRateRepository.observeExchangeRates(base)
             .subscribeOn(schedulerConfiguration.computation())
             .observeOn(schedulerConfiguration.ui())
             .subscribe({ response ->
+                Timber.v("observeExchangeRates(base=$base)")
                 _exchangeRates.value = getExchangeRateList(response)
             }, { error ->
-                Timber.e(error, "onStart()")
+                Timber.e(error, "getExchangeRates()")
+                _showError.call()
             })
     }
 
@@ -40,7 +51,6 @@ class ExchangeRateViewModel(
             value = it.value
         )
     }
-
 
     override fun onCleared() {
         super.onCleared()

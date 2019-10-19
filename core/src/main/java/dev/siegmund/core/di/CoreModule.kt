@@ -28,5 +28,7 @@ class CoreModule {
         override fun computation(): Scheduler = Schedulers.computation()
 
         override fun ui(): Scheduler = AndroidSchedulers.mainThread()
+
+        override fun timer(): Scheduler = Schedulers.computation()
     }
 }
