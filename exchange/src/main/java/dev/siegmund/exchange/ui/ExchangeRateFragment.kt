@@ -41,18 +41,23 @@ class ExchangeRateFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         AndroidSupportInjection.inject(this)
+        exchangeRateViewModel.onCreate()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initAdapter()
         initRecyclerView()
         observeExchangeRates()
         observeShowError()
+        observeScrollToTop()
     }
 
-    override fun onStart() {
-        super.onStart()
-        exchangeRateViewModel.onStart()
+    private fun initAdapter() {
+        with(adapter) {
+            onClick = { exchangeRateViewModel.onItemClick(it) }
+            onValueChanged = { item, items -> exchangeRateViewModel.onValueChanged(item, items) }
+        }
     }
 
     private fun initRecyclerView() {
@@ -72,6 +77,12 @@ class ExchangeRateFragment : Fragment() {
     private fun observeShowError() {
         exchangeRateViewModel.showError.observe(this, Observer {
             Toast.makeText(requireContext(), R.string.error, Toast.LENGTH_LONG).show()
+        })
+    }
+
+    private fun observeScrollToTop() {
+        exchangeRateViewModel.scrollToTop.observe(this, Observer {
+            recyclerView.scrollToPosition(0)
         })
     }
 }
