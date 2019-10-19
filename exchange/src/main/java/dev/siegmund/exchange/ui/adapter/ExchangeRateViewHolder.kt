@@ -17,6 +17,7 @@ class ExchangeRateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
         itemView.nameTextView.text = item.currencyName
         itemView.codeTextView.text = item.currencyCode
         itemView.valueEditText.setText(item.value.round().toString())
+        itemView.valueEditText.isEnabled = item.editable
     }
 
     private fun getDrawable(context: Context, currencyCode: String) : Drawable? {

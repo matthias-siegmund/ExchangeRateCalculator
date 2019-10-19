@@ -49,7 +49,8 @@ class ExchangeRateViewModel(
     private fun getBaseExchangeRate(base: String) = ExchangeRate(
         currencyName = currencyNameProvider.getDisplayName(base),
         currencyCode = base,
-        value = 1.0
+        value = 1.0,
+        editable = true
     )
 
     private fun getExchangeRateList(response: ExchangeRateResponse) = response.rates.map {
