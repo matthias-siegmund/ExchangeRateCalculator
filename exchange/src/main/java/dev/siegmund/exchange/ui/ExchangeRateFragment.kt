@@ -17,6 +17,7 @@ import dev.siegmund.exchange.ui.model.ExchangeRateViewModel
 import dev.siegmund.exchange.ui.model.ExchangeRateViewModelFactory
 import kotlinx.android.synthetic.main.fragment_exchange_rate.*
 import javax.inject.Inject
+import androidx.recyclerview.widget.SimpleItemAnimator
 
 class ExchangeRateFragment : Fragment() {
     @Inject
@@ -56,6 +57,7 @@ class ExchangeRateFragment : Fragment() {
 
     private fun initRecyclerView() {
         with(recyclerView) {
+            (itemAnimator as SimpleItemAnimator).supportsChangeAnimations = false
             layoutManager = LinearLayoutManager(context, VERTICAL, false)
             adapter = this@ExchangeRateFragment.adapter
         }
