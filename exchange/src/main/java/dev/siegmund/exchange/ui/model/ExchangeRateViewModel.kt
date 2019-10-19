@@ -96,7 +96,8 @@ class ExchangeRateViewModel(
         currencyCode = base,
         rate = 1.0,
         value = value.round(2),
-        editable = true
+        editable = true,
+        clickable = false
     )
 
     private fun getExchangeRateItemList(
