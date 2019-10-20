@@ -2,10 +2,7 @@ package dev.siegmund.exchange.ui.model
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.nhaarman.mockitokotlin2.argumentCaptor
-import com.nhaarman.mockitokotlin2.times
-import com.nhaarman.mockitokotlin2.verify
-import com.nhaarman.mockitokotlin2.whenever
+import com.nhaarman.mockitokotlin2.*
 import dev.siegmund.exchange.TestSchedulers
 import dev.siegmund.exchange.api.ExchangeRateRepository
 import dev.siegmund.exchange.api.model.ExchangeRateResponse
@@ -25,6 +22,12 @@ class ExchangeRateViewModelTest {
 
     @Mock
     lateinit var exchangeRateItemsObserver: Observer<List<ExchangeRateItem>>
+
+    @Mock
+    lateinit var showErrorObserver: Observer<Unit>
+
+    @Mock
+    lateinit var scrollToTopObserver: Observer<String>
 
     @Mock
     lateinit var exchangeRateRepository: ExchangeRateRepository
@@ -100,6 +103,34 @@ class ExchangeRateViewModelTest {
     }
 
     @Test
+    fun `exchange rates are not updated when error occurs`() {
+        // given
+        whenever(exchangeRateRepository.observeExchangeRates(BASE))
+            .thenReturn(Observable.error(IllegalStateException()))
+        viewModel.exchangeRateItems.observeForever(exchangeRateItemsObserver)
+
+        // when
+        viewModel.onCreate()
+
+        // then
+        verify(exchangeRateItemsObserver, never()).onChanged(any())
+    }
+
+    @Test
+    fun `error is shown when error occurs`() {
+        // given
+        whenever(exchangeRateRepository.observeExchangeRates(BASE))
+            .thenReturn(Observable.error(IllegalStateException()))
+        viewModel.showError.observeForever(showErrorObserver)
+
+        // when
+        viewModel.onCreate()
+
+        // then
+        verify(showErrorObserver, times(1)).onChanged(null)
+    }
+
+    @Test
     fun `exchange rates are observed with new base when item was clicked`() {
         // given
         whenever(exchangeRateRepository.observeExchangeRates(AUD_CODE))
@@ -110,6 +141,20 @@ class ExchangeRateViewModelTest {
 
         // then
         verify(exchangeRateRepository, times(1)).observeExchangeRates(AUD_CODE)
+    }
+
+    @Test
+    fun `list scrolled to top when item was clicked`() {
+        // given
+        whenever(exchangeRateRepository.observeExchangeRates(AUD_CODE))
+            .thenReturn(Observable.just(response))
+        viewModel.scrollToTop.observeForever(scrollToTopObserver)
+
+        // when
+        viewModel.onItemClick(aud)
+
+        // then
+        verify(scrollToTopObserver, times(1)).onChanged(AUD_CODE)
     }
 
     @Test
